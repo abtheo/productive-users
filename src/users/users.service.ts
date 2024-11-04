@@ -4,6 +4,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 
+export function excludePassword(user: User): Partial<User> {
+  const { password, ...result } = user;
+  return result;
+}
 @Injectable()
 export class UsersService {
   private readonly users: User[] = [
@@ -32,11 +36,18 @@ export class UsersService {
     return newUser;
   }
 
-  findAll(): User[] {
-    return this.users;
+  findAll(): Partial<User>[] {
+    return this.users.map(excludePassword);
   }
 
-  async findOne(username: string): Promise<User | undefined> {
+  async findOne(username: string): Promise<Partial<User> | undefined> {
+    const user = this.users.find((user) => user.username === username);
+    return user ? excludePassword(user) : undefined;
+  }
+
+  public async findOneWithPassword(
+    username: string,
+  ): Promise<User | undefined> {
     return this.users.find((user) => user.username === username);
   }
 
