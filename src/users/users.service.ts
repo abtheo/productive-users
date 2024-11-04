@@ -10,7 +10,7 @@ export class UsersService {
     {
       userId: 1,
       username: 'admin',
-      password: 'password',
+      password: '$2a$10$3ZK/uYvIWcw5vV.Kf.jTfeDGsY.Hmu5INUkmACZf0d/AdCJ9ELCjK',
       role: 'admin',
     },
   ];
