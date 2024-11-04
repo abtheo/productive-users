@@ -14,9 +14,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/users/role.guard';
 import { Roles } from 'src/users/roles.decorator';
+import { UserOrAdminGuard } from 'src/auth/userOrAdmin.guard';
 
 @Controller('users')
-@UseGuards(AuthGuard, RolesGuard)
+@UseGuards(AuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -36,30 +37,33 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(UserOrAdminGuard)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
+  @UseGuards(UserOrAdminGuard)
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
 
-  @Get('profile')
-  @Roles('user', 'super-user', 'admin') // Accessible to all roles
+  @Get('home')
   getProfile() {
-    return 'This is the user profile';
+    return 'This is the home page';
   }
 
   @Get('admin')
-  @Roles('admin') // Only accessible to 'admin' role
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   getAdminContent() {
     return 'This is admin content';
   }
 
   @Get('super-user')
-  @Roles('super-user', 'admin') // Accessible to 'super-user' and 'admin'
+  @UseGuards(RolesGuard)
+  @Roles('super-user', 'admin')
   getSuperuserContent() {
-    return 'This is super-user content';
+    return 'This is super-user+ content';
   }
 }
