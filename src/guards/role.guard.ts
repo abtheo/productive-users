@@ -8,6 +8,18 @@ import { Reflector } from '@nestjs/core';
 import { Role } from '../users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 
+/**
+ * Guard that allows access to a resource if the authenticated user
+ * has a role matching the specified role list.
+ *
+ * Set which roles are accepted by the guard using the `@Roles` keyword, e.g.
+ * ```typescript
+    \@UseGuards(RolesGuard)
+    \@Roles('super-user', 'admin')
+  ```
+ * @class UserOrAdminGuard
+ * @implements {CanActivate}
+ */
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(

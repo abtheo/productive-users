@@ -5,6 +5,13 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 
+/**
+ * Guard that allows access to a resource if the authenticated user
+ * is either the resource owner or has an 'admin' role.
+ *
+ * @class UserOrAdminGuard
+ * @implements {CanActivate}
+ */
 @Injectable()
 export class UserOrAdminGuard implements CanActivate {
   constructor() {}

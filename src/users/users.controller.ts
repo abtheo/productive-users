@@ -11,10 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { RolesGuard } from 'src/guards/role.guard';
-import { Roles } from 'src/guards/roles.decorator';
-import { UserOrAdminGuard } from 'src/guards/userOrAdmin.guard';
+import { AuthGuard, Roles, RolesGuard, UserOrAdminGuard } from '../guards';
 
 @Controller('users')
 @UseGuards(AuthGuard)
