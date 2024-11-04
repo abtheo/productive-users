@@ -6,12 +6,16 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Role } from './entities/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(
+    private reflector: Reflector,
+    private usersService: UsersService,
+  ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredRoles = this.reflector.get<Role[]>(
       'roles',
       context.getHandler(),
@@ -21,17 +25,17 @@ export class RolesGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const user = request.user; // Ensure AuthGuard is populating `request.user`
+    const user = await this.usersService.findById(request.user.id);
 
-    if (!user || !user.role) {
-      throw new ForbiddenException('User role not found');
+    if (!request.user || !user || !user.role) {
+      throw new ForbiddenException(`User not authenticated or does not exist.`);
     }
 
     // Check if the user's role is included in the required roles
-    if (!requiredRoles.includes(user.role)) {
+    if (!requiredRoles.includes(user?.role)) {
       throw new ForbiddenException('Access denied: insufficient permissions');
     }
 
-    return true; // User has the required role, allow access
+    return true; // User exists, is authed and has the required role: allow access
   }
 }

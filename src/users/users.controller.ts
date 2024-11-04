@@ -27,13 +27,16 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(UserOrAdminGuard)
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.usersService.findById(+id);
   }
 
   @Patch(':id')

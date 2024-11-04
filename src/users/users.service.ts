@@ -40,12 +40,21 @@ export class UsersService {
     return this.users.map(excludePassword);
   }
 
-  async findOne(username: string): Promise<Partial<User> | undefined> {
+  async findById(id: number): Promise<Partial<User> | undefined> {
+    const user = this.users.find((user) => user.userId === id);
+    return user ? excludePassword(user) : undefined;
+  }
+
+  async findByUsername(username: string): Promise<Partial<User> | undefined> {
     const user = this.users.find((user) => user.username === username);
     return user ? excludePassword(user) : undefined;
   }
 
-  public async findOneWithPassword(
+  async findByIdWithPassword(id: number): Promise<User | undefined> {
+    return this.users.find((user) => user.userId === id);
+  }
+
+  async findByUsernameWithPassword(
     username: string,
   ): Promise<User | undefined> {
     return this.users.find((user) => user.username === username);
