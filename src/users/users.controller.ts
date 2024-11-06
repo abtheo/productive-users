@@ -42,6 +42,7 @@ export class UsersController {
 
   @Patch(':id')
   @UseGuards(UserOrAdminGuard)
+  @UsePipes(new ValidationPipe({ transform: true }))
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
