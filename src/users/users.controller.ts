@@ -12,6 +12,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard, Roles, RolesGuard, UserOrAdminGuard } from '../guards';
+import { Role } from 'src/users/entities/user.entity';
 
 @Controller('users')
 @UseGuards(AuthGuard)
@@ -25,7 +26,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(RolesGuard)
-  @Roles('admin')
+  @Roles(Role.admin)
   findAll() {
     return this.usersService.findAll();
   }
@@ -55,15 +56,15 @@ export class UsersController {
 
   @Get('admin')
   @UseGuards(RolesGuard)
-  @Roles('admin')
+  @Roles(Role.admin)
   getAdminContent() {
     return 'This is admin content';
   }
 
-  @Get('super-user')
+  @Get('superUser')
   @UseGuards(RolesGuard)
-  @Roles('super-user', 'admin')
+  @Roles(Role.superUser)
   getSuperuserContent() {
-    return 'This is super-user+ content';
+    return 'This is superUser+ content';
   }
 }

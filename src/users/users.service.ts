@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
-import { User } from './entities/user.entity';
+import { Role, User } from './entities/user.entity';
 
 export function excludePassword(user: User): Partial<User> {
   const { password, ...result } = user;
@@ -15,7 +15,7 @@ export class UsersService {
       userId: 1,
       username: 'admin',
       password: '$2a$10$3ZK/uYvIWcw5vV.Kf.jTfeDGsY.Hmu5INUkmACZf0d/AdCJ9ELCjK',
-      role: 'admin',
+      role: Role.admin,
     },
   ];
   async create(createUserDto: CreateUserDto): Promise<User> {

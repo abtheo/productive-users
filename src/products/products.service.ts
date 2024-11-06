@@ -11,13 +11,25 @@ export class ProductsService {
       productId: 1,
       name: 'Basic Package',
       price: 9.99,
-      accessTier: 'user',
+      accessTier: Role.user,
     },
     {
       productId: 2,
       name: 'Premium Package',
       price: 19.99,
-      accessTier: 'super-user',
+      accessTier: Role.superUser,
+    },
+    {
+      productId: 3,
+      name: 'Elite Package',
+      price: 0,
+      accessTier: Role.admin,
+    },
+    {
+      productId: 3,
+      name: 'Free Christmas Event',
+      price: 0,
+      accessTier: Role.user,
     },
   ];
 
@@ -56,14 +68,14 @@ export class ProductsService {
     if (!product) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
-    if (updateProductDto.name !== undefined) {
-      // Update only the fields that are provided
+    // Update only the fields that are provided
+    if (updateProductDto.name) {
       product.name = updateProductDto.name;
     }
-    if (updateProductDto.price !== undefined) {
+    if (updateProductDto.price) {
       product.price = updateProductDto.price;
     }
-    if (updateProductDto.accessTier !== undefined) {
+    if (updateProductDto.accessTier) {
       product.accessTier = updateProductDto.accessTier;
     }
 

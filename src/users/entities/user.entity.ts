@@ -5,4 +5,8 @@ export class User {
   role: Role;
 }
 
-export type Role = 'user' | 'super-user' | 'admin';
+export enum Role {
+  'user',
+  'superUser',
+  'admin',
+}

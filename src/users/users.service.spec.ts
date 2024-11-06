@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'src/users/entities/user.entity';
 
 jest.mock('bcrypt');
 
@@ -28,7 +29,7 @@ describe('UsersService', () => {
       const createUserDto: CreateUserDto = {
         username: 'testuser',
         password: 'password123',
-        role: 'user',
+        role: Role.user,
       };
 
       const result = await service.create(createUserDto);

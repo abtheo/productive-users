@@ -12,10 +12,10 @@ import { UsersService } from 'src/users/users.service';
  * Guard that allows access to a resource if the authenticated user
  * has a role matching the specified role list.
  *
- * Set which roles are accepted by the guard using the `@Roles` keyword, e.g.
+ * Set the minimum Role access level using the `@Roles` guard, e.g.
  * ```typescript
     \@UseGuards(RolesGuard)
-    \@Roles('super-user', 'admin')
+    \@Role('admin')
   ```
  * @class UserOrAdminGuard
  * @implements {CanActivate}
@@ -28,11 +28,8 @@ export class RolesGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredRoles = this.reflector.get<Role[]>(
-      'roles',
-      context.getHandler(),
-    );
-    if (!requiredRoles) {
+    const requiredRole = this.reflector.get<Role>('role', context.getHandler());
+    if (!requiredRole) {
       return true; // No roles specified, allow access
     }
 
@@ -43,8 +40,8 @@ export class RolesGuard implements CanActivate {
       throw new ForbiddenException(`User not authenticated or does not exist.`);
     }
 
-    // Check if the user's role is included in the required roles
-    if (!requiredRoles.includes(user?.role)) {
+    // Check if the user's role equal to or greater than required role level
+    if (user?.role >= requiredRole) {
       throw new ForbiddenException('Access denied: insufficient permissions');
     }
 
