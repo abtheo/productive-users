@@ -37,6 +37,7 @@ $ npm run test:cov
 ## Docker container
 
 `docker build -t my-nestjs-app .`
+`docker compose up`
 
 ## Deployment
 

@@ -67,4 +67,10 @@ export class UsersController {
   getSuperuserContent() {
     return 'This is superUser+ content';
   }
+
+  @Patch(':id')
+  @UseGuards(UserOrAdminGuard)
+  upgradeUser(@Param('id') id: string) {
+    return this.usersService.upgradeUser(+id);
+  }
 }

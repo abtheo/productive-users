@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { Role } from 'src/users/entities/user.entity';
+import { Role } from './entities/user.entity';
 
 jest.mock('bcrypt');
 
@@ -32,7 +32,7 @@ describe('UsersService', () => {
         role: Role.user,
       };
 
-      const result = await service.create(createUserDto);
+      const result = service.create(createUserDto);
 
       expect(result).toEqual({
         userId: expect.any(Number),
@@ -60,7 +60,7 @@ describe('UsersService', () => {
 
   describe('findById', () => {
     it('should return a user by id without password', async () => {
-      const user = await service.findById(1);
+      const user = service.findById(1);
 
       expect(user).toBeDefined();
       expect(user!.password).toBeUndefined();
@@ -68,30 +68,30 @@ describe('UsersService', () => {
       expect(user!.userId).toBe(1);
     });
 
-    it('should return undefined for non-existent user id', async () => {
-      const user = await service.findById(999);
-      expect(user).toBeUndefined();
+    it('should throw NotFoundException for non-existent user id', async () => {
+      expect(service.findById(999)).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('findByUsername', () => {
     it('should return a user by username without password', async () => {
-      const user = await service.findByUsername('admin');
+      const user = service.findByUsername('admin');
 
       expect(user).toBeDefined();
       expect(user!.password).toBeUndefined();
       expect(user!.username).toBe('admin');
     });
 
-    it('should return undefined for non-existent username', async () => {
-      const user = await service.findByUsername('nonexistent');
-      expect(user).toBeUndefined();
+    it('should throw NotFoundException for non-existent username', async () => {
+      expect(service.findByUsername('nonexistent')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
   describe('findByIdWithPassword', () => {
     it('should return a user with password', async () => {
-      const user = await service.findByIdWithPassword(1);
+      const user = service.findByIdWithPassword(1);
 
       expect(user).toBeDefined();
       expect(user!.password).toBeDefined();
@@ -101,7 +101,7 @@ describe('UsersService', () => {
 
   describe('findByUsernameWithPassword', () => {
     it('should return a user with password', async () => {
-      const user = await service.findByUsernameWithPassword('admin');
+      const user = service.findByUsernameWithPassword('admin');
 
       expect(user).toBeDefined();
       expect(user!.password).toBeDefined();
@@ -128,7 +128,7 @@ describe('UsersService', () => {
         username: 'test',
       };
 
-      await expect(service.update(999, updateUserDto)).rejects.toThrow(
+      expect(service.update(999, updateUserDto)).rejects.toThrow(
         NotFoundException,
       );
     });
