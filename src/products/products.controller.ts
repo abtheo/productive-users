@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -22,6 +24,7 @@ export class ProductsController {
   @Post()
   @UseGuards(RolesGuard)
   @Roles(Role.admin)
+  @UsePipes(new ValidationPipe({ transform: true }))
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
