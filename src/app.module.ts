@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { ProductsModule } from './products/products.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
@@ -16,9 +16,10 @@ import { JwtService } from '@nestjs/jwt';
     ProductsModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     }),
   ],
   controllers: [AppController, UsersController],
-  providers: [AppService, UsersService, ConfigService, JwtService],
+  providers: [AppService, UsersService, JwtService],
 })
 export class AppModule {}

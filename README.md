@@ -28,6 +28,10 @@ The container will automatically launch the NestJs web server, accessible via `h
 
 ## Endpoints
 
+A small collection of example Postman requests is available in [productive-users.postman_collection.json](productive-users.postman_collection.json)
+
+To start using the API,
+
 ## Development
 
 ```bash
