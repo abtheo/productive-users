@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { Role } from 'src/users/entities/user.entity';
+import { Role } from '../../users/entities/user.entity';
 
 export class CreateProductDto {
   @IsString()

@@ -1,4 +1,4 @@
-import { Role } from 'src/users/entities/user.entity';
+import { Role } from '../../users/entities/user.entity';
 
 export class Product {
   productId: number;

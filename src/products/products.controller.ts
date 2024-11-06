@@ -14,7 +14,7 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard, Roles, RolesGuard } from '../guards';
-import { Role } from 'src/users/entities/user.entity';
+import { Role } from '../users/entities/user.entity';
 
 @Controller('products')
 @UseGuards(AuthGuard)
@@ -52,5 +52,10 @@ export class ProductsController {
   @Roles(Role.admin)
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
+  }
+
+  @Get(':role')
+  getAccessibleProductsForRole(@Param('role') role: Role) {
+    return this.productsService.findByAccessTier(role);
   }
 }

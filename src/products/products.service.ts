@@ -26,7 +26,7 @@ export class ProductsService {
       accessTier: Role.admin,
     },
     {
-      productId: 3,
+      productId: 4,
       name: 'Free Christmas Event',
       price: 0,
       accessTier: Role.user,
@@ -54,7 +54,7 @@ export class ProductsService {
   }
 
   findByAccessTier(accessTier: Role): Product[] {
-    return this.products.filter((product) => product.accessTier === accessTier);
+    return this.products.filter((product) => product.accessTier <= accessTier);
   }
 
   /**

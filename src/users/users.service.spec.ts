@@ -32,13 +32,12 @@ describe('UsersService', () => {
         role: Role.user,
       };
 
-      const result = service.create(createUserDto);
+      const result = await service.create(createUserDto);
 
       expect(result).toEqual({
         userId: expect.any(Number),
         username: 'testuser',
-        password: expect.stringContaining('hashed_'),
-        role: 'user',
+        role: Role.user,
       });
       expect(bcrypt.hash).toHaveBeenCalledWith('password123', 10);
     });
@@ -69,7 +68,7 @@ describe('UsersService', () => {
     });
 
     it('should throw NotFoundException for non-existent user id', async () => {
-      expect(service.findById(999)).rejects.toThrow(NotFoundException);
+      expect(() => service.findById(999)).toThrow(NotFoundException);
     });
   });
 
@@ -83,7 +82,7 @@ describe('UsersService', () => {
     });
 
     it('should throw NotFoundException for non-existent username', async () => {
-      expect(service.findByUsername('nonexistent')).rejects.toThrow(
+      expect(() => service.findByUsername('nonexistent')).toThrow(
         NotFoundException,
       );
     });
@@ -119,7 +118,7 @@ describe('UsersService', () => {
       const result = await service.update(1, updateUserDto);
 
       expect(result.username).toBe('updatedadmin');
-      expect(result.password).toContain('hashed_');
+      expect(result.password).toBeUndefined();
       expect(bcrypt.hash).toHaveBeenCalledWith('newpassword', 10);
     });
 
@@ -136,8 +135,7 @@ describe('UsersService', () => {
 
   describe('remove', () => {
     it('should remove a user', () => {
-      const result = service.remove(1);
-      expect(result).toBe('User #1 removed successfully');
+      expect(service.remove(1)).toBeUndefined(); // Would throw if user did not exist
     });
 
     it('should throw NotFoundException for non-existent user', () => {

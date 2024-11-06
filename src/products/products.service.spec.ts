@@ -4,13 +4,16 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { NotFoundException } from '@nestjs/common';
 import { Role } from '../users/entities/user.entity';
+import { AuthService } from '../auth/auth.service';
+import { UsersService } from '../users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 describe('ProductsService', () => {
   let service: ProductsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ProductsService],
+      providers: [ProductsService, AuthService, UsersService, JwtService],
     }).compile();
 
     service = module.get<ProductsService>(ProductsService);
@@ -61,7 +64,7 @@ describe('ProductsService', () => {
       const products = service.findByAccessTier(Role.user);
       expect(products.length).toBeGreaterThan(0);
       products.forEach((product) => {
-        expect(product.accessTier).toBe(Role.user);
+        expect(product.accessTier).toBeGreaterThanOrEqual(Role.user);
       });
     });
 

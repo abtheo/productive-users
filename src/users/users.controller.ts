@@ -14,7 +14,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard, Roles, RolesGuard, UserOrAdminGuard } from '../guards';
-import { Role } from 'src/users/entities/user.entity';
+import { Role } from '../users/entities/user.entity';
 
 @Controller('users')
 @UseGuards(AuthGuard)
