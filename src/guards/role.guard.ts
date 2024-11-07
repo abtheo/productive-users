@@ -15,7 +15,7 @@ import { UsersService } from '../users/users.service';
  * Set the minimum Role access level using the `@Roles` guard, e.g.
  * ```typescript
     \@UseGuards(RolesGuard)
-    \@Role('admin')
+    \@Roles('admin')
   ```
  * @class UserOrAdminGuard
  * @implements {CanActivate}
@@ -27,21 +27,24 @@ export class RolesGuard implements CanActivate {
     private usersService: UsersService,
   ) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredRole = this.reflector.get<Role>('role', context.getHandler());
+  canActivate(context: ExecutionContext): boolean {
+    const requiredRole = this.reflector.get<Role>(
+      'roles',
+      context.getHandler(),
+    );
     if (!requiredRole) {
       return true; // No roles specified, allow access
     }
 
     const request = context.switchToHttp().getRequest();
-    const user = await this.usersService.findById(request.user.id);
+    const user = this.usersService.findById(request.user.userId);
 
     if (!request.user || !user || !user.role) {
       throw new ForbiddenException(`User not authenticated or does not exist.`);
     }
 
     // Check if the user's role equal to or greater than required role level
-    if (user?.role >= requiredRole) {
+    if (user?.role! < requiredRole) {
       throw new ForbiddenException('Access denied: insufficient permissions');
     }
 

@@ -4,6 +4,8 @@ import {
   Injectable,
   ForbiddenException,
 } from '@nestjs/common';
+import { Role } from '../users/entities/user.entity';
+import { UsersService } from '../users/users.service';
 
 /**
  * Guard that allows access to a resource if the authenticated user
@@ -14,11 +16,11 @@ import {
  */
 @Injectable()
 export class UserOrAdminGuard implements CanActivate {
-  constructor() {}
+  constructor(private usersService: UsersService) {}
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    const user = request.user; // Populated by AuthGuard
+    const user = this.usersService.findById(request.user.userId); // Populated by AuthGuard
     const userIdParam = +request.params.id; // Get the `id` parameter from the request
 
     if (!user) {
@@ -26,10 +28,10 @@ export class UserOrAdminGuard implements CanActivate {
     }
 
     // Check if the user is accessing their own data or if they have an 'admin' role
-    if (user.userId === userIdParam || user.role === 'admin') {
+    if (user.userId === userIdParam || user.role === Role.admin) {
       return true;
     }
 
-    throw new ForbiddenException('Access denied: insufficient permissions');
+    throw new ForbiddenException(`Access denied: insufficient permissions`);
   }
 }

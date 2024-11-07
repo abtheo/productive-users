@@ -8,6 +8,7 @@ import { UsersService } from './users/users.service';
 import { ProductsModule } from './products/products.module';
 import { ConfigModule } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ProductsController } from './products/products.controller';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { JwtService } from '@nestjs/jwt';
       envFilePath: '.env',
     }),
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UsersService, JwtService],
+  controllers: [AppController, UsersController, ProductsController],
+  providers: [AppService, JwtService],
 })
 export class AppModule {}

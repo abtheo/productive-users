@@ -28,8 +28,6 @@ export class UsersController {
   }
 
   @Get()
-  @UseGuards(RolesGuard)
-  @Roles(Role.admin)
   findAll() {
     return this.usersService.findAll();
   }
@@ -53,28 +51,17 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 
-  @Get('home')
-  getProfile() {
-    return 'This is the home page';
-  }
-
-  @Get('admin')
+  @Patch('upgrade/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.admin)
-  getAdminContent() {
-    return 'This is admin content';
-  }
-
-  @Get('superUser')
-  @UseGuards(RolesGuard)
-  @Roles(Role.superUser)
-  getSuperuserContent() {
-    return 'This is superUser+ content';
-  }
-
-  @Patch(':id')
-  @UseGuards(UserOrAdminGuard)
   upgradeUser(@Param('id') id: string) {
     return this.usersService.upgradeUser(+id);
+  }
+
+  @Patch('downgrade/:id')
+  @UseGuards(RolesGuard)
+  @Roles(Role.admin)
+  downgradeUser(@Param('id') id: string) {
+    return this.usersService.downgradeUser(+id);
   }
 }

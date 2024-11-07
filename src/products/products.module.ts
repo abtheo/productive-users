@@ -5,10 +5,12 @@ import { AuthService } from '../auth/auth.service';
 import { UsersService } from '../users/users.service';
 import { AuthModule } from '../auth/auth.module';
 import { JwtService } from '@nestjs/jwt';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   controllers: [ProductsController],
-  providers: [ProductsService, AuthService, UsersService, JwtService],
-  imports: [AuthModule],
+  providers: [ProductsService, JwtService],
+  imports: [AuthModule, UsersModule],
+  exports: [ProductsService],
 })
 export class ProductsModule {}

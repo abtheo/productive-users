@@ -6,7 +6,7 @@ import { Role, User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [
+  public users: User[] = [
     {
       userId: 1,
       username: 'admin',
@@ -64,9 +64,11 @@ export class UsersService {
    * @throws NotFoundException if the user with the provided ID is not found
    */
   findById(id: number): Partial<User> {
-    const user = this.users.find((user) => user.userId === id);
+    const user = this.users.find((user) => user.userId == id);
     if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+      throw new NotFoundException(
+        `User with ID ${JSON.stringify(this.users)} ${id} not found`,
+      );
     }
     return this.excludePassword(user);
   }
@@ -189,6 +191,6 @@ export class UsersService {
     if (user.role! > 0) {
       user.role!--;
     }
-    return user;
+    return this.excludePassword(user);
   }
 }
