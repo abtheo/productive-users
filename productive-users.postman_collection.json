@@ -148,7 +148,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXNlcklkIjoxLCJpYXQiOjE3MzA5MzIyMDAsImV4cCI6MTczMDkzNTgwMH0.E2Jl9RJE1eLGa853xYqJU9iT11lR6okAFeOXZBgRLEw",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXNlcklkIjoxLCJpYXQiOjE3MzA5Mzc0MjYsImV4cCI6MTczMDk0MTAyNn0.eI5h3mVi4Of2let5GGKOCXGajNdxDSG1fStHPwUGhdo",
 						"type": "text"
 					}
 				],
@@ -162,14 +162,94 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/users",
+					"raw": "http://localhost:3000/products/user/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"users"
+						"products",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upgrade User Role",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXNlcklkIjoxLCJpYXQiOjE3MzA5Mzg4OTQsImV4cCI6MTczMDk0MjQ5NH0.O95mobXLK4kRbkJzsO4SWDH_BeUa7Yl9ZvhOo6oZKoU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/upgrade/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"upgrade",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Downgrade User Role",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXNlcklkIjoxLCJpYXQiOjE3MzA5Mzg4OTQsImV4cCI6MTczMDk0MjQ5NH0.O95mobXLK4kRbkJzsO4SWDH_BeUa7Yl9ZvhOo6oZKoU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/upgrade/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"upgrade",
+						"1"
 					]
 				}
 			},
