@@ -54,6 +54,9 @@ export class UsersController {
   @Patch('upgrade/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.admin)
+  /**
+   * Increases the Role level of a user by one tier.
+   */
   upgradeUser(@Param('id') id: string) {
     return this.usersService.upgradeUser(+id);
   }
@@ -61,6 +64,9 @@ export class UsersController {
   @Patch('downgrade/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.admin)
+  /**
+   * Reduces the Role level of a user by one tier.
+   */
   downgradeUser(@Param('id') id: string) {
     return this.usersService.downgradeUser(+id);
   }

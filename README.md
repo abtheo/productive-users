@@ -51,6 +51,14 @@ In order to authenticate with any endpoint under `/users/` or `/products/`, this
 curl -H 'Authorization: Bearer <JWT_token>' http://localhost:3000/<protected-endpoint>
 ```
 
+## Endpoints
+
+For more information on the available endpoints in this API, please reference their controller source code.
+
+- [Users endpoints](./src/users/users.controller.ts)
+
+- [Products endpoints](./src/products/products.controller.ts)
+
 ## Development
 
 ### Installation
