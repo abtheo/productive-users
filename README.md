@@ -4,9 +4,10 @@ Suite of Restful API endpoints within a containerised project using Docker and b
 
 ## Setup
 
-The simplest way to run the project is using [Docker](https://www.docker.com/).
+**Prerequesits**:
+The simplest way to run the project is using [Docker](https://www.docker.com/). Alternatively, follow the Development guide to run the project with npm.
 
-First clone the repository:
+First, clone the repository:
 
 ```
 git clone https://github.com/abtheo/productive-users
@@ -26,19 +27,39 @@ docker compose up
 
 The container will automatically launch the NestJs web server, accessible via `http://localhost:3000`.
 
-## Endpoints
+## Accessing the API
 
 A small collection of example Postman requests is available in [productive-users.postman_collection.json](productive-users.postman_collection.json)
 
-To start using the API,
+To start using the API, first send a GET request to `http://localhost:3000/auth/login`. In the request body, a `username` and `password` should be provided. You can use the following default credentials to get started:
+
+```
+{"username": "admin", "password": "password"}
+```
+
+Successfully authenticating with this endpoint will cause a JWT token to be returned like so:
+
+```
+{
+    "access_token": "eyJhbG...oZKoU"
+}
+```
+
+In order to authenticate with any endpoint under `/users/` or `/products/`, this JWT token should be added as a parameter to the header of any request:
+
+```
+curl -H 'Authorization: Bearer <JWT_token>' http://localhost:3000/<protected-endpoint>
+```
 
 ## Development
+
+### Installation
 
 ```bash
 $ npm install
 ```
 
-## Compile and run the project
+### Compile and run the project
 
 ```bash
 # development
@@ -51,7 +72,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Run tests
+### Run tests
 
 ```bash
 # unit tests
